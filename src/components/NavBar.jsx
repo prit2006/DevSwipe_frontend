@@ -1,21 +1,35 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '../utils/const';
+import { useDispatch } from "react-redux";
+import { removeUser } from "../utils/userSlice";
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
   const user = useSelector(store => store.user)
   console.log(user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+    const handleLogout = async () => {
+    try {
+      await axios.post(BASE_URL + "/auth/logout", {}, { withCredentials: true });
+      dispatch(removeUser());
+     // dispatch(removeFeed());
+     navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-3xl">DevSwipe</Link>
       </div>
       <div className="flex gap-2">
-        {!user && (
-    <Link to="/Login" className="justify-between">
-                Login
-              </Link>
-        )}
    {user && (
         <div className="dropdown dropdown-end mx-5 flex items-center ">
           <div className=''>
@@ -44,7 +58,13 @@ function NavBar() {
               </Link>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li>   <button
+                    onClick={handleLogout}
+                    className="text-red-400 hover:text-red-300 hover:bg-gray-800 w-full p-2 rounded-md"
+                  >
+                    Logout
+                  </button>
+            </li>
           </ul>
         </div>)}
       </div>

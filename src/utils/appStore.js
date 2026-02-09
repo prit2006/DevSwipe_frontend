@@ -4,6 +4,7 @@ import feedReducer from "./feedSlice";
 import connectionReducer from "./connectionSlice";
 import requestReducer from "./requestSlice";
 import postReducer from "./postSlice"; // 👈 NEW
+ 
 
 const appStore = configureStore({
   reducer: {

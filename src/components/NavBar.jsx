@@ -27,8 +27,8 @@ function NavBar() {
   const isActive = (path) => location.pathname === path;
 
   const navLinks = [
-    { path: "/posts", label: "📸 Feed" },
-    { path: "/posts/my", label: "📄 My Posts" },
+    { path: "/posts", label: "📸 Posts" },
+    { path: "/projects", label: "💼 Projects" }, // 🆕
     { path: "/connections", label: "💗 Connections" },
     { path: "/requests", label: "👁️ Requests" },
   ];
@@ -37,7 +37,6 @@ function NavBar() {
     <nav className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 shadow-md">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-
           {/* LEFT */}
           <div className="flex items-center gap-6">
             <Link
@@ -69,14 +68,21 @@ function NavBar() {
           {/* RIGHT */}
           {user && (
             <div className="flex items-center gap-4">
-
-              {/* Create Post */}
-              <Link
-                to="/posts/create"
-                className="hidden sm:flex px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition font-semibold"
-              >
-                ➕ Create Post
-              </Link>
+              {/* Create Buttons */}
+              <div className="hidden sm:flex gap-2">
+                <Link
+                  to="/posts/create"
+                  className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition font-semibold"
+                >
+                  ➕ Post
+                </Link>
+                <Link
+                  to="/projects/create"
+                  className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition font-semibold"
+                >
+                  🚀 Project
+                </Link>
+              </div>
 
               {/* Welcome */}
               <div className="hidden lg:block bg-gray-800 text-green-400 px-4 py-2 rounded-lg font-semibold">
@@ -117,11 +123,40 @@ function NavBar() {
                       </div>
 
                       <div className="py-2">
-                        <Link to="/profile" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-gray-300 hover:bg-gray-800">
+                        <Link
+                          to="/profile"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
                           👤 Profile
                         </Link>
-                        <Link to="/posts/create" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-gray-300 hover:bg-gray-800">
+                        <Link
+                          to="/posts/create"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
                           ➕ Create Post
+                        </Link>
+                        <Link
+                          to="/projects/create"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
+                          🚀 Create Project
+                        </Link>
+                        <Link
+                          to="/projects/my"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
+                          💼 My Projects
+                        </Link>
+                        <Link
+                          to="/projects/stats"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
+                          📊 Project Stats
                         </Link>
                       </div>
 
@@ -180,6 +215,14 @@ function NavBar() {
               >
                 ➕ Create Post
               </Link>
+
+              <Link
+                to="/projects/create"
+                onClick={() => setMobileOpen(false)}
+                className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 text-center"
+              >
+                🚀 Create Project
+              </Link>
             </div>
           </div>
         )}
@@ -189,6 +232,199 @@ function NavBar() {
 }
 
 export default NavBar;
+
+
+// import React, { useState } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { Link, useNavigate, useLocation } from "react-router-dom";
+// import axios from "axios";
+// import { BASE_URL } from "../utils/const";
+// import { removeUser } from "../utils/userSlice";
+
+// function NavBar() {
+//   const user = useSelector((store) => store.user);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const location = useLocation();
+
+//   const [profileOpen, setProfileOpen] = useState(false);
+//   const [mobileOpen, setMobileOpen] = useState(false);
+
+//   const handleLogout = async () => {
+//     try {
+//       await axios.post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true });
+//       dispatch(removeUser());
+//       navigate("/login");
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
+//   const isActive = (path) => location.pathname === path;
+
+//   const navLinks = [
+//     { path: "/posts", label: "📸 Feed" },
+//     { path: "/posts/my", label: "📄 My Posts" },
+//     { path: "/connections", label: "💗 Connections" },
+//     { path: "/requests", label: "👁️ Requests" },
+//   ];
+
+//   return (
+//     <nav className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 shadow-md">
+//       <div className="max-w-7xl mx-auto px-4">
+//         <div className="flex justify-between items-center h-16">
+
+//           {/* LEFT */}
+//           <div className="flex items-center gap-6">
+//             <Link
+//               to="/"
+//               className="text-3xl font-bold text-white hover:text-green-400 transition"
+//             >
+//               DevSwipe
+//             </Link>
+
+//             {user && (
+//               <div className="hidden md:flex gap-2">
+//                 {navLinks.map((link) => (
+//                   <Link
+//                     key={link.path}
+//                     to={link.path}
+//                     className={`px-4 py-2 rounded-md transition ${
+//                       isActive(link.path)
+//                         ? "bg-gray-800 text-white"
+//                         : "text-gray-300 hover:bg-gray-800 hover:text-white"
+//                     }`}
+//                   >
+//                     {link.label}
+//                   </Link>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* RIGHT */}
+//           {user && (
+//             <div className="flex items-center gap-4">
+
+//               {/* Create Post */}
+//               <Link
+//                 to="/posts/create"
+//                 className="hidden sm:flex px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition font-semibold"
+//               >
+//                 ➕ Create Post
+//               </Link>
+
+//               {/* Welcome */}
+//               <div className="hidden lg:block bg-gray-800 text-green-400 px-4 py-2 rounded-lg font-semibold">
+//                 👋 {user.firstname}
+//               </div>
+
+//               {/* Profile */}
+//               <div className="relative">
+//                 <button
+//                   onClick={() => setProfileOpen(!profileOpen)}
+//                   className="flex items-center gap-2"
+//                 >
+//                   <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-green-400">
+//                     <img
+//                       src={user.photoURL}
+//                       alt={user.firstname}
+//                       className="w-full h-full object-cover"
+//                     />
+//                   </div>
+//                 </button>
+
+//                 {profileOpen && (
+//                   <>
+//                     <div
+//                       className="fixed inset-0 z-40"
+//                       onClick={() => setProfileOpen(false)}
+//                     />
+
+//                     <div className="absolute right-0 mt-3 w-64 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50">
+//                       <div className="px-4 py-3 border-b border-gray-700">
+//                         <p className="text-sm text-gray-400">Signed in as</p>
+//                         <p className="text-white font-semibold truncate">
+//                           {user.firstname} {user.lastname}
+//                         </p>
+//                         <p className="text-xs text-gray-500 truncate">
+//                           {user.emailId}
+//                         </p>
+//                       </div>
+
+//                       <div className="py-2">
+//                         <Link to="/profile" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-gray-300 hover:bg-gray-800">
+//                           👤 Profile
+//                         </Link>
+//                         <Link to="/posts/create" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-gray-300 hover:bg-gray-800">
+//                           ➕ Create Post
+//                         </Link>
+//                       </div>
+
+//                       <div className="border-t border-gray-700"></div>
+
+//                       <button
+//                         onClick={() => {
+//                           setProfileOpen(false);
+//                           handleLogout();
+//                         }}
+//                         className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-800"
+//                       >
+//                         🚪 Logout
+//                       </button>
+//                     </div>
+//                   </>
+//                 )}
+//               </div>
+
+//               {/* Mobile Button */}
+//               <button
+//                 onClick={() => setMobileOpen(!mobileOpen)}
+//                 className="md:hidden"
+//               >
+//                 <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+//                 </svg>
+//               </button>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* MOBILE MENU */}
+//         {user && mobileOpen && (
+//           <div className="md:hidden border-t border-gray-700 pt-4 pb-4">
+//             <div className="flex flex-col gap-2">
+//               {navLinks.map((link) => (
+//                 <Link
+//                   key={link.path}
+//                   to={link.path}
+//                   onClick={() => setMobileOpen(false)}
+//                   className={`px-4 py-2 rounded-md transition ${
+//                     isActive(link.path)
+//                       ? "bg-gray-800 text-white"
+//                       : "text-gray-300 hover:bg-gray-800"
+//                   }`}
+//                 >
+//                   {link.label}
+//                 </Link>
+//               ))}
+
+//               <Link
+//                 to="/posts/create"
+//                 onClick={() => setMobileOpen(false)}
+//                 className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 text-center"
+//               >
+//                 ➕ Create Post
+//               </Link>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </nav>
+//   );
+// }
+
+// export default NavBar;
 
 
 

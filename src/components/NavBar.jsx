@@ -4,6 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";
 import { removeUser } from "../utils/userSlice";
+import NotificationsDropdown from "./NotificationsDropdown";
+import { setNotifications } from "../utils/notificationSlice";
 
 function NavBar() {
   const user = useSelector((store) => store.user);
@@ -13,6 +15,18 @@ function NavBar() {
 
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+
+  const unreadCount = useSelector((store) => store.notification?.unreadCount || 0);
+
+  // Fetch initial notifications
+  React.useEffect(() => {
+    if (user) {
+      axios.get(`${BASE_URL}/notification`, { withCredentials: true })
+        .then(res => dispatch(setNotifications(res.data)))
+        .catch(err => console.error("Error fetching initial notifications: ", err));
+    }
+  }, [user, dispatch]);
 
   const handleLogout = async () => {
     try {
@@ -84,6 +98,27 @@ function NavBar() {
                 </Link>
               </div>
 
+              {/* Notifications */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setNotifOpen(!notifOpen);
+                    if (profileOpen) setProfileOpen(false);
+                  }}
+                  className="relative p-2 text-gray-300 hover:text-white transition focus:outline-none"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                  </svg>
+                  {unreadCount > 0 && (
+                    <span className="absolute top-1 right-1 flex items-center justify-center min-w-[16px] h-4 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+                {notifOpen && <NotificationsDropdown onClose={() => setNotifOpen(false)} />}
+              </div>
+
               {/* Welcome */}
               <div className="hidden lg:block bg-gray-800 text-green-400 px-4 py-2 rounded-lg font-semibold">
                 👋 {user.firstname}
@@ -92,7 +127,10 @@ function NavBar() {
               {/* Profile */}
               <div className="relative">
                 <button
-                  onClick={() => setProfileOpen(!profileOpen)}
+                  onClick={() => {
+                    setProfileOpen(!profileOpen);
+                    if (notifOpen) setNotifOpen(false);
+                  }}
                   className="flex items-center gap-2"
                 >
                   <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-green-400">
@@ -130,6 +168,14 @@ function NavBar() {
                         >
                           👤 Profile
                         </Link>
+                        <Link
+                          to="/saved"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
+                          🔖 Saved Items
+                        </Link>
+                        <div className="border-t border-gray-700 my-1"></div>
                         <Link
                           to="/posts/create"
                           onClick={() => setProfileOpen(false)}

@@ -3,6 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/const";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePost } from "../utils/postSlice";
+import { toggleSavedPost } from "../utils/userSlice";
 import CommentSection from "./CommentSection";
 import EditPostModal from "./EditPostModal";
 
@@ -17,6 +18,9 @@ const PostCard = ({ post, refreshPosts }) => {
   const dispatch = useDispatch();
 
   const isOwner = currentUser?._id === post.userId._id;
+
+  const isSaved = currentUser?.savedPosts?.includes(post._id);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -48,6 +52,28 @@ const PostCard = ({ post, refreshPosts }) => {
       console.error("Error liking post:", error);
     } finally {
       setIsLiking(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (isSaving || !currentUser) return;
+    setIsSaving(true);
+    
+    // Optimistic Redux Update
+    dispatch(toggleSavedPost(post._id));
+
+    try {
+      await axios.patch(
+        `${BASE_URL}/bookmark/post/${post._id}`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+       // Revert on error
+       dispatch(toggleSavedPost(post._id));
+       console.error("Error saving post:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -183,6 +209,15 @@ const PostCard = ({ post, refreshPosts }) => {
               className="btn btn-ghost flex-1 gap-2"
             >
               💬 Comment
+            </button>
+            <button
+              onClick={handleSave}
+              className={`btn btn-ghost flex-1 gap-2 ${
+                isSaved ? "text-primary" : ""
+              }`}
+              disabled={isSaving}
+            >
+              {isSaved ? "🔖 Saved" : "📑 Save"}
             </button>
           </div>
 

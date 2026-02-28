@@ -64,7 +64,7 @@
 
   export default CommentItem;
 
-// // CommentItem.jsx
+
 // import React from "react";
 
 // const CommentItem = ({ comment, onDelete, isOwner }) => {

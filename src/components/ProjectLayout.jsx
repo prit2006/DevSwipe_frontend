@@ -1,4 +1,3 @@
-// components/ProjectLayout.js
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

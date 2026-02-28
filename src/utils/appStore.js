@@ -5,6 +5,7 @@ import connectionReducer from "./connectionSlice";
 import requestReducer from "./requestSlice";
 import postReducer from "./postSlice";
 import projectReducer from "./projectSlice"; // 🆕
+import notificationReducer from "./notificationSlice";
 
 const appStore = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const appStore = configureStore({
     feed: feedReducer,
     post: postReducer,
     project: projectReducer, // 🆕
+    notification: notificationReducer,
     connection: connectionReducer,
     request: requestReducer,
   },

@@ -1,8 +1,9 @@
-// components/SingleProject.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleSavedProject } from "../utils/userSlice";
 
 function SingleProject() {
   const { projectId } = useParams();
@@ -23,6 +24,34 @@ function SingleProject() {
       setError(err.response?.data?.message || "Failed to fetch project");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const currentUser = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+
+  const isSaved = currentUser?.savedProjects?.includes(projectId);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (isSaving || !currentUser) return;
+    setIsSaving(true);
+
+    // Optimistic toggle
+    dispatch(toggleSavedProject(projectId));
+
+    try {
+      await axios.patch(
+        `${BASE_URL}/bookmark/project/${projectId}`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      // Revert on error
+      dispatch(toggleSavedProject(projectId));
+      console.error("Error saving project:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -97,23 +126,34 @@ function SingleProject() {
           <h1 className="text-4xl font-bold text-white">
             {project.header}
           </h1>
-          <span
-            className={`px-4 py-2 rounded-lg ${
-              project.isPublic
-                ? "bg-green-600 text-white"
-                : "bg-gray-600 text-gray-300"
-            }`}
-          >
-            {project.isPublic ? "🌍 Public" : "🔒 Private"}
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className={`px-4 py-2 rounded-lg border transition ${isSaved
+                  ? "bg-blue-600/20 text-blue-400 border-blue-600 hover:bg-blue-600/30"
+                  : "bg-transparent text-gray-300 border-gray-600 hover:border-gray-400"
+                }`}
+            >
+              {isSaved ? "🔖 Saved" : "📑 Save"}
+            </button>
+            <span
+              className={`px-4 py-2 rounded-lg ${project.isPublic
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-600 text-gray-300"
+                }`}
+            >
+              {project.isPublic ? "🌍 Public" : "🔒 Private"}
+            </span>
+          </div>
         </div>
 
         {/* Owner */}
         <div className="text-gray-400 mb-6">
           Created by{" "}
           <span className="text-white font-semibold">
-  {project.ownerId?.firstname} {project.ownerId?.lastname}
-</span>
+            {project.ownerId?.firstname} {project.ownerId?.lastname}
+          </span>
         </div>
 
         {/* Description */}

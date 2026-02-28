@@ -1,4 +1,3 @@
-// components/EditProject.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";

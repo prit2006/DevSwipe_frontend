@@ -12,6 +12,7 @@ import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import CreatePost from "./components/CreatePost";
+import SavedItems from "./components/SavedItems";
 import MyPosts from "./components/MyPosts";
 import SinglePost from "./components/SinglePost";
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="connections" element={<Connections />} />
             <Route path="requests" element={<Requests />} />
+            <Route path="saved" element={<SavedItems />} />
           </Route>
 
           {/* 🔥 POSTS SECTION */}

@@ -31,7 +31,11 @@ const Login = () => {
       );
 
       dispatch(addUser(res.data));
-      navigate("/");
+      if (res.data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Invalid email or password");
@@ -402,7 +406,7 @@ export default Login;
 
 //       console.log(res.data);
 //       dispatch(addUser(res.data))
-//       navigate("/"); 
+//       navigate("/");
 //     } catch (err) {
 //       console.error(err);
 //       setError("Invalid email or password");
@@ -470,10 +474,10 @@ export default Login;
 //   const HandleLogin = async () => {
 //     try {
 //       const result =await axios.post("http://localhost:3000/auth/login", {
-//      email: emailId,  
+//      email: emailId,
 //      pass
 //     });
-//     console.log(result.data); 
+//     console.log(result.data);
 //     } catch (err) {
 //       console.error(err);
 //     }

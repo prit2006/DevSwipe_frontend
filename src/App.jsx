@@ -26,6 +26,16 @@ import EditProject from "./components/EditProject";
 import UserProjects from "./components/UserProjects";
 import ProjectStats from "./components/ProjectStats";
 
+// 👑 ADMIN COMPONENTS
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import UsersManagement from "./components/admin/UsersManagement";
+import PostsManagement from "./components/admin/PostsManagement";
+import ProjectsManagement from "./components/admin/ProjectsManagement";
+import AdminUserProfile from "./components/admin/AdminUserProfile";
+import ProjectDetails from "./components/admin/ProjectDetails";
+import AdminRoute from "./components/admin/AdminRoute";
+
 function App() {
   return (
     <Provider store={appStore}>
@@ -57,6 +67,16 @@ function App() {
             <Route path="edit/:projectId" element={<EditProject />} />
             <Route path="user/:userId" element={<UserProjects />} />
             <Route path=":projectId" element={<SingleProject />} />
+          </Route>
+
+          {/* 👑 ADMIN SECTION */}
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<UsersManagement />} />
+            <Route path="users/:id" element={<AdminUserProfile />} />
+            <Route path="posts" element={<PostsManagement />} />
+            <Route path="projects" element={<ProjectsManagement />} />
+            <Route path="projects/:id" element={<ProjectDetails />} />
           </Route>
 
           {/* 🔐 AUTH */}

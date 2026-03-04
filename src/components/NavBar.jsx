@@ -45,6 +45,7 @@ function NavBar() {
     { path: "/projects", label: "💼 Projects" }, // 🆕
     { path: "/connections", label: "💗 Connections" },
     { path: "/requests", label: "👁️ Requests" },
+    { path: "/premium", label: "⭐ Premium" },
   ];
 
   return (
@@ -176,6 +177,11 @@ function NavBar() {
                           🔖 Saved Items
                         </Link>
                         <div className="border-t border-gray-700 my-1"></div>
+                           <Link
+                             to="/premium"
+                           className="block px-4 py-2 text-gray-300 hover:bg-gray-800">
+                           ⭐ Premium
+                          </Link>
                         <Link
                           to="/posts/create"
                           onClick={() => setProfileOpen(false)}
@@ -183,6 +189,11 @@ function NavBar() {
                         >
                           ➕ Create Post
                         </Link>
+                        
+
+                       
+                      
+
                         <Link
                           to="/projects/create"
                           onClick={() => setProfileOpen(false)}

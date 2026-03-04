@@ -16,6 +16,8 @@ import SavedItems from "./components/SavedItems";
 import MyPosts from "./components/MyPosts";
 import SinglePost from "./components/SinglePost";
 import Premium from "./components/Premium";
+import Chat from "./components/Chat";
+
 
 // 🆕 PROJECT COMPONENTS
 import ProjectLayout from "./components/ProjectLayout";
@@ -49,6 +51,7 @@ function App() {
             <Route path="connections" element={<Connections />} />
             <Route path="requests" element={<Requests />} />
             <Route path="/premium" element={<Premium />} />
+            <Route path="/chat/:targetUserId" element={<Chat />} />
             <Route path="saved" element={<SavedItems />} />
           </Route>
 

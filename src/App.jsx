@@ -39,6 +39,14 @@ import AdminUserProfile from "./components/admin/AdminUserProfile";
 import ProjectDetails from "./components/admin/ProjectDetails";
 import AdminRoute from "./components/admin/AdminRoute";
 
+// 💼 JOBS COMPONENTS
+import JobLayout from "./components/JobLayout";
+import JobsFeed from "./components/JobsFeed";
+import JobDetails from "./components/JobDetails";
+import MyApplications from "./components/MyApplications";
+import JobManagement from "./components/admin/JobManagement";
+import ApplicationReview from "./components/admin/ApplicationReview";
+
 function App() {
   return (
     <Provider store={appStore}>
@@ -74,6 +82,13 @@ function App() {
             <Route path=":projectId" element={<SingleProject />} />
           </Route>
 
+          {/* 💼 JOBS SECTION */}
+          <Route path="/jobs" element={<JobLayout />}>
+            <Route index element={<JobsFeed />} />
+            <Route path="my-applications" element={<MyApplications />} />
+            <Route path=":id" element={<JobDetails />} />
+          </Route>
+
           {/* 👑 ADMIN SECTION */}
           <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
             <Route path="dashboard" element={<AdminDashboard />} />
@@ -82,6 +97,8 @@ function App() {
             <Route path="posts" element={<PostsManagement />} />
             <Route path="projects" element={<ProjectsManagement />} />
             <Route path="projects/:id" element={<ProjectDetails />} />
+            <Route path="jobs" element={<JobManagement />} />
+            <Route path="applications" element={<ApplicationReview />} />
           </Route>
 
           {/* 🔐 AUTH */}

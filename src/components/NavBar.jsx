@@ -42,7 +42,8 @@ function NavBar() {
 
   const navLinks = [
     { path: "/posts", label: "📸 Posts" },
-    { path: "/projects", label: "💼 Projects" }, // 🆕
+    { path: "/projects", label: "💼 Projects" },
+    { path: "/jobs", label: "🏢 Jobs" }, // 🆕
     { path: "/connections", label: "💗 Connections" },
     { path: "/requests", label: "👁️ Requests" },
     { path: "/premium", label: "⭐ Premium" },
@@ -83,7 +84,7 @@ function NavBar() {
           {/* RIGHT */}
           {user && (
             <div className="flex items-center gap-4">
-              {/* Create Buttons */}
+              {/* Create Buttons
               <div className="hidden sm:flex gap-2">
                 <Link
                   to="/posts/create"
@@ -97,7 +98,7 @@ function NavBar() {
                 >
                   🚀 Project
                 </Link>
-              </div>
+              </div> */}
 
               {/* Notifications */}
               <div className="relative">
@@ -207,6 +208,13 @@ function NavBar() {
                           className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
                         >
                           💼 My Projects
+                        </Link>
+                        <Link
+                          to="/jobs/my-applications"
+                          onClick={() => setProfileOpen(false)}
+                          className="block px-4 py-2 text-gray-300 hover:bg-gray-800"
+                        >
+                          📄 My Applications
                         </Link>
                         <Link
                           to="/projects/stats"

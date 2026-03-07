@@ -25,6 +25,8 @@ const AdminLayout = () => {
         { name: "Users", path: "/admin/users", icon: "👥" },
         { name: "Posts", path: "/admin/posts", icon: "📝" },
         { name: "Projects", path: "/admin/projects", icon: "🚀" },
+        { name: "Jobs", path: "/admin/jobs", icon: "🏢" },
+        { name: "Applications", path: "/admin/applications", icon: "📄" },
     ];
 
     return (
@@ -46,8 +48,8 @@ const AdminLayout = () => {
                                 key={item.name}
                                 to={item.path}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-                                        ? "bg-primary text-primary-content font-medium shadow-md shadow-primary/30"
-                                        : "hover:bg-base-300 text-base-content/80 hover:text-base-content"
+                                    ? "bg-primary text-primary-content font-medium shadow-md shadow-primary/30"
+                                    : "hover:bg-base-300 text-base-content/80 hover:text-base-content"
                                     }`}
                             >
                                 <span className="text-xl">{item.icon}</span>

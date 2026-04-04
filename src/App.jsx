@@ -46,6 +46,7 @@ import JobDetails from "./components/JobDetails";
 import MyApplications from "./components/MyApplications";
 import JobManagement from "./components/admin/JobManagement";
 import ApplicationReview from "./components/admin/ApplicationReview";
+import PaymentsManagement from "./components/admin/PaymentsManagement";
 
 function App() {
   return (
@@ -99,6 +100,7 @@ function App() {
             <Route path="projects/:id" element={<ProjectDetails />} />
             <Route path="jobs" element={<JobManagement />} />
             <Route path="applications" element={<ApplicationReview />} />
+            <Route path="payments" element={<PaymentsManagement />} />
           </Route>
 
           {/* 🔐 AUTH */}

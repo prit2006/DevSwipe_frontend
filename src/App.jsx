@@ -8,6 +8,7 @@ import Feed from "./components/Feed";
 import PostsFeed from "./components/PostsFeed";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import ForgotPassword from "./components/ForgotPassword";
 import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
@@ -106,6 +107,7 @@ function App() {
           {/* 🔐 AUTH */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </BrowserRouter>
     </Provider>

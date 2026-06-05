@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import appStore from "./utils/appStore";
+import { PersistGate } from "redux-persist/integration/react";
+import appStore, { persistor } from "./utils/appStore";
 
 import Body from "./components/Body";
 import PostLayout from "./components/PostLayout";
@@ -52,64 +53,66 @@ import PaymentsManagement from "./components/admin/PaymentsManagement";
 function App() {
   return (
     <Provider store={appStore}>
-      <BrowserRouter>
-        <Routes>
-          {/* 🔥 MAIN SWIPE APP */}
-          <Route path="/" element={<Body />}>
-            <Route index element={<Feed />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="connections" element={<Connections />} />
-            <Route path="requests" element={<Requests />} />
-            <Route path="/premium" element={<Premium />} />
-            <Route path="/chat/:targetUserId" element={<Chat />} />
-            <Route path="saved" element={<SavedItems />} />
-          </Route>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Routes>
+            {/* 🔥 MAIN SWIPE APP */}
+            <Route path="/" element={<Body />}>
+              <Route index element={<Feed />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="connections" element={<Connections />} />
+              <Route path="requests" element={<Requests />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
+              <Route path="saved" element={<SavedItems />} />
+            </Route>
 
-          {/* 🔥 POSTS SECTION */}
-          <Route path="/posts" element={<PostLayout />}>
-            <Route index element={<PostsFeed />} />
-            <Route path="create" element={<CreatePost />} />
-            <Route path="my" element={<MyPosts />} />
-            <Route path=":postId" element={<SinglePost />} />
-          </Route>
+            {/* 🔥 POSTS SECTION */}
+            <Route path="/posts" element={<PostLayout />}>
+              <Route index element={<PostsFeed />} />
+              <Route path="create" element={<CreatePost />} />
+              <Route path="my" element={<MyPosts />} />
+              <Route path=":postId" element={<SinglePost />} />
+            </Route>
 
-          {/* 🆕 PROJECTS SECTION */}
-          <Route path="/projects" element={<ProjectLayout />}>
-            <Route index element={<ProjectsFeed />} />
-            <Route path="create" element={<CreateProject />} />
-            <Route path="my" element={<MyProjects />} />
-            <Route path="stats" element={<ProjectStats />} />
-            <Route path="edit/:projectId" element={<EditProject />} />
-            <Route path="user/:userId" element={<UserProjects />} />
-            <Route path=":projectId" element={<SingleProject />} />
-          </Route>
+            {/* 🆕 PROJECTS SECTION */}
+            <Route path="/projects" element={<ProjectLayout />}>
+              <Route index element={<ProjectsFeed />} />
+              <Route path="create" element={<CreateProject />} />
+              <Route path="my" element={<MyProjects />} />
+              <Route path="stats" element={<ProjectStats />} />
+              <Route path="edit/:projectId" element={<EditProject />} />
+              <Route path="user/:userId" element={<UserProjects />} />
+              <Route path=":projectId" element={<SingleProject />} />
+            </Route>
 
-          {/* 💼 JOBS SECTION */}
-          <Route path="/jobs" element={<JobLayout />}>
-            <Route index element={<JobsFeed />} />
-            <Route path="my-applications" element={<MyApplications />} />
-            <Route path=":id" element={<JobDetails />} />
-          </Route>
+            {/* 💼 JOBS SECTION */}
+            <Route path="/jobs" element={<JobLayout />}>
+              <Route index element={<JobsFeed />} />
+              <Route path="my-applications" element={<MyApplications />} />
+              <Route path=":id" element={<JobDetails />} />
+            </Route>
 
-          {/* 👑 ADMIN SECTION */}
-          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<UsersManagement />} />
-            <Route path="users/:id" element={<AdminUserProfile />} />
-            <Route path="posts" element={<PostsManagement />} />
-            <Route path="projects" element={<ProjectsManagement />} />
-            <Route path="projects/:id" element={<ProjectDetails />} />
-            <Route path="jobs" element={<JobManagement />} />
-            <Route path="applications" element={<ApplicationReview />} />
-            <Route path="payments" element={<PaymentsManagement />} />
-          </Route>
+            {/* 👑 ADMIN SECTION */}
+            <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="users" element={<UsersManagement />} />
+              <Route path="users/:id" element={<AdminUserProfile />} />
+              <Route path="posts" element={<PostsManagement />} />
+              <Route path="projects" element={<ProjectsManagement />} />
+              <Route path="projects/:id" element={<ProjectDetails />} />
+              <Route path="jobs" element={<JobManagement />} />
+              <Route path="applications" element={<ApplicationReview />} />
+              <Route path="payments" element={<PaymentsManagement />} />
+            </Route>
 
-          {/* 🔐 AUTH */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-        </Routes>
-      </BrowserRouter>
+            {/* 🔐 AUTH */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }

@@ -264,7 +264,16 @@ const Chat = () => {
     setMessages(chatMessages);
   };
 
-  useEffect(() => { fetchChatMessages(); }, []);
+  useEffect(() => {
+    fetchChatMessages();
+    
+    // Auto-refresh chat every 0.5 seconds
+    const intervalId = setInterval(() => {
+      fetchChatMessages();
+    }, 500);
+    
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });

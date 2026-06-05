@@ -195,6 +195,7 @@ const AdminLayout = () => {
         { name: "Posts", path: "/admin/posts", icon: "📝" },
         { name: "Projects", path: "/admin/projects", icon: "🚀" },
         { name: "Jobs", path: "/admin/jobs", icon: "🏢" },
+        { name: "AI Reports", path: "/admin/resume-reports", icon: "🤖" },
         { name: "Applications", path: "/admin/applications", icon: "📄" },
         { name: "Payments", path: "/admin/payments", icon: "💳" },
     ];

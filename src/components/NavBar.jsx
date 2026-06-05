@@ -45,6 +45,7 @@ function NavBar() {
     { path: "/jobs", label: "Jobs", icon: "🏢" },
     { path: "/connections", label: "Connections", icon: "💗" },
     { path: "/requests", label: "Requests", icon: "👁️" },
+    { path: "/resume-analyzer", label: "AI Resume", icon: "🤖" },
     { path: "/premium", label: "Premium", icon: "⭐" },
   ];
 
@@ -200,6 +201,7 @@ function NavBar() {
                           { to: "/projects/create", icon: "🚀", label: "Create Project" },
                           { to: "/projects/my", icon: "💼", label: "My Projects" },
                           { to: "/jobs/my-applications", icon: "📄", label: "My Applications" },
+                          { to: "/my-resumes", icon: "🤖", label: "My AI Resumes" },
                           { to: "/projects/stats", icon: "📊", label: "Project Stats" },
                         ].map(({ to, icon, label }) => (
                           <Link key={to} to={to} onClick={() => setProfileOpen(false)}

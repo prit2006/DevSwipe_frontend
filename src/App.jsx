@@ -49,6 +49,12 @@ import MyApplications from "./components/MyApplications";
 import JobManagement from "./components/admin/JobManagement";
 import ApplicationReview from "./components/admin/ApplicationReview";
 import PaymentsManagement from "./components/admin/PaymentsManagement";
+import ResumeReportsManagement from "./components/admin/ResumeReportsManagement";
+
+// 🤖 AI INTERVIEW COMPONENTS
+import ResumeAnalyzer from "./components/ResumeAnalyzer";
+import InterviewReport from "./components/InterviewReport";
+import MyInterviewReports from "./components/MyInterviewReports";
 
 function App() {
   return (
@@ -65,6 +71,9 @@ function App() {
               <Route path="/premium" element={<Premium />} />
               <Route path="/chat/:targetUserId" element={<Chat />} />
               <Route path="saved" element={<SavedItems />} />
+              <Route path="resume-analyzer" element={<ResumeAnalyzer />} />
+              <Route path="my-resumes" element={<MyInterviewReports />} />
+              <Route path="interview-reports/:id" element={<InterviewReport />} />
             </Route>
 
             {/* 🔥 POSTS SECTION */}
@@ -102,6 +111,7 @@ function App() {
               <Route path="projects" element={<ProjectsManagement />} />
               <Route path="projects/:id" element={<ProjectDetails />} />
               <Route path="jobs" element={<JobManagement />} />
+              <Route path="resume-reports" element={<ResumeReportsManagement />} />
               <Route path="applications" element={<ApplicationReview />} />
               <Route path="payments" element={<PaymentsManagement />} />
             </Route>

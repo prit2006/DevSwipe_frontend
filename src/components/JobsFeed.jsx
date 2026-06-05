@@ -284,7 +284,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { BASE_URL } from "../utils/const";
 
 const styles = `
@@ -486,9 +486,14 @@ const AuroraBg = () => (
 
 /* ════════════════════════════════════════════════════════════════════ */
 const JobsFeed = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ role: "", technology: "", company: "" });
+  const [filters, setFilters] = useState({
+    role: searchParams.get("role") || "",
+    technology: searchParams.get("technology") || "",
+    company: searchParams.get("company") || "",
+  });
 
   const fetchJobs = async () => {
     try {
@@ -507,12 +512,36 @@ const JobsFeed = () => {
     }
   };
 
-  useEffect(() => { fetchJobs(); }, []);
+  useEffect(() => {
+    const queryFilters = {
+      role: searchParams.get("role") || "",
+      technology: searchParams.get("technology") || "",
+      company: searchParams.get("company") || "",
+    };
+
+    setFilters((currentFilters) => {
+      const hasChanged = Object.keys(queryFilters).some(
+        (key) => currentFilters[key] !== queryFilters[key]
+      );
+
+      return hasChanged ? queryFilters : currentFilters;
+    });
+  }, [searchParams]);
 
   useEffect(() => {
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, v]) => v.trim() !== "")
+    );
+    const nextQuery = new URLSearchParams(activeFilters).toString();
+    const currentQuery = searchParams.toString();
+
+    if (nextQuery !== currentQuery) {
+      setSearchParams(activeFilters, { replace: true });
+    }
+
     const delay = setTimeout(() => { fetchJobs(); }, 700);
     return () => clearTimeout(delay);
-  }, [filters]);
+  }, [filters, searchParams, setSearchParams]);
 
   const handleChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });

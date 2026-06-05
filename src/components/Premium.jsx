@@ -439,16 +439,16 @@ const OrbLoader = () => (
 );
 
 const silverFeatures = [
-  { icon:"💬", text:"Chat with developers" },
   { icon:"🔗", text:"100 connection requests / day" },
-  { icon:"✓", text:"Blue Tick verification" },
+  { icon:"🤖", text:"AI Resume Analyzer" },
+  { icon:"⭐", text:"Priority support" },
   { icon:"📅", text:"Valid for 3 months" },
 ];
 
 const goldFeatures = [
-  { icon:"💬", text:"Chat with developers" },
   { icon:"♾️", text:"Unlimited connection requests" },
-  { icon:"✓", text:"Blue Tick verification" },
+  { icon:"🤖", text:"AI Resume Analyzer" },
+  { icon:"⭐", text:"Priority support" },
   { icon:"📅", text:"Valid for 6 months" },
 ];
 

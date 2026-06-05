@@ -3,8 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";
 
+
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,700&family=DM+Mono:wght@400;500&display=swap');
+
+  @keyframes goldShimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
 
   @keyframes aurora1 {
     0%   { transform: translate(0%,0%) scale(1) rotate(0deg); }
@@ -212,17 +218,120 @@ const ScoreRing = ({ score }) => {
   );
 };
 
+/* ─────────────────────────────────────────────────────────────
+   PREMIUM GATE
+───────────────────────────────────────────────────────────── */
+const PremiumGate = () => {
+  const features = [
+    { icon:"🧠", text:"AI-powered resume analysis & scoring" },
+    { icon:"📄", text:"Generate tailored AI resume PDF" },
+    { icon:"🎯", text:"Job-match scoring against target roles" },
+    { icon:"⚡", text:"Skill gap identification & severity ranking" },
+    { icon:"📅", text:"Day-by-day personalised preparation plan" },
+    { icon:"💬", text:"Technical & behavioral interview questions" },
+  ];
+  return (
+    <div style={{ minHeight:"100vh", background:"#030308", position:"relative", display:"flex", alignItems:"center", justifyContent:"center", padding:"24px" }}>
+      <style>{styles}</style>
+      <AuroraBg />
+      <div style={{ position:"relative", zIndex:10, width:"100%", maxWidth:520, animation:"cardEntry 0.85s cubic-bezier(0.16,1,0.3,1) forwards" }}>
+        <div style={{
+          position:"relative", borderRadius:24,
+          background:"rgba(245,158,11,0.04)", backdropFilter:"blur(40px)",
+          padding:"52px 44px",
+          boxShadow:"0 40px 100px rgba(0,0,0,0.65), 0 0 80px rgba(245,158,11,0.08), inset 0 1px 0 rgba(252,211,77,0.1)",
+          overflow:"hidden",
+        }}>
+          {/* animated gold border */}
+          <div style={{ position:"absolute", inset:-1, borderRadius:25, padding:1,
+            background:"linear-gradient(90deg, #f59e0b, #fcd34d, #f59e0b, #d97706, #fcd34d, #f59e0b)",
+            backgroundSize:"300% 100%", pointerEvents:"none",
+            WebkitMask:"linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite:"xor", maskComposite:"exclude",
+            animation:"shimmerBorder 2.5s ease infinite"
+          }}/>
+          {/* Top badge */}
+          <div style={{ position:"absolute", top:-16, left:"50%", transform:"translateX(-50%)", padding:"5px 20px", borderRadius:20, background:"linear-gradient(135deg, #f59e0b, #d97706)", boxShadow:"0 0 24px rgba(245,158,11,0.6)", zIndex:2, whiteSpace:"nowrap" }}>
+            <span style={{ fontFamily:"'DM Mono', monospace", fontSize:9, letterSpacing:"0.2em", color:"#1a0a00", textTransform:"uppercase", fontWeight:700 }}>Premium Feature Only</span>
+          </div>
+          {/* Crown icon */}
+          <div style={{ display:"flex", justifyContent:"center", marginBottom:20 }}>
+            <div style={{ width:72, height:72, borderRadius:"50%",
+              background:"radial-gradient(circle at 35% 35%, rgba(252,211,77,0.25), rgba(245,158,11,0.1))",
+              border:"1px solid rgba(252,211,77,0.3)", display:"flex", alignItems:"center", justifyContent:"center",
+              boxShadow:"0 0 50px rgba(245,158,11,0.2)", animation:"iconFloat 4s ease-in-out infinite",
+            }}>
+              <span style={{ fontSize:30 }}>👑</span>
+            </div>
+          </div>
+          {/* Heading */}
+          <div style={{ textAlign:"center", marginBottom:28 }}>
+            <p style={{ fontFamily:"'DM Mono', monospace", fontSize:9, letterSpacing:"0.3em", textTransform:"uppercase", color:"rgba(245,158,11,0.5)", marginBottom:10 }}>unlock premium</p>
+            <h1 style={{ fontFamily:"'Playfair Display', Georgia, serif", fontSize:28, fontWeight:900, lineHeight:1.15, marginBottom:12,
+              background:"linear-gradient(135deg, #f59e0b 0%, #fcd34d 30%, #f59e0b 50%, #d97706 70%, #fcd34d 100%)",
+              backgroundSize:"200% auto", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+              backgroundClip:"text", animation:"goldShimmer 3s linear infinite",
+            }}>AI Resumes & Reports</h1>
+            <p style={{ color:"rgba(255,255,255,0.25)", fontSize:11, fontFamily:"'DM Mono', monospace", letterSpacing:"0.03em", lineHeight:1.75 }}>
+              This feature is exclusive to Premium members. Upgrade to unlock AI-powered resume analysis, job matching, and personalised interview coaching.
+            </p>
+          </div>
+          {/* Features */}
+          <div style={{ marginBottom:28 }}>
+            {features.map((f, i) => (
+              <div key={i} style={{ display:"flex", alignItems:"center", gap:12, padding:"11px 0",
+                borderBottom:"1px solid rgba(245,158,11,0.08)", fontFamily:"'DM Mono', monospace",
+                fontSize:11, color:"rgba(255,255,255,0.55)", letterSpacing:"0.02em",
+                ...(i === features.length-1 ? { borderBottom:"none" } : {})
+              }}>
+                <span style={{ fontSize:15, width:22, textAlign:"center", flexShrink:0 }}>{f.icon}</span>
+                {f.text}
+              </div>
+            ))}
+          </div>
+          {/* CTA */}
+          <Link to="/premium" style={{ display:"block", textDecoration:"none", width:"100%", padding:"16px", borderRadius:13, border:"none",
+            fontFamily:"'DM Mono', monospace", fontSize:11, letterSpacing:"0.2em", textTransform:"uppercase",
+            background:"linear-gradient(135deg, #f59e0b, #d97706)", color:"#1a0a00", fontWeight:700,
+            boxShadow:"0 0 35px rgba(245,158,11,0.5), 0 8px 24px rgba(0,0,0,0.4)",
+            textAlign:"center", transition:"all 0.2s",
+          }}>👑 Upgrade to Premium →</Link>
+          <p style={{ textAlign:"center", marginTop:16, fontFamily:"'DM Mono', monospace", fontSize:9, color:"rgba(255,255,255,0.18)", letterSpacing:"0.05em" }}>
+            Choose Silver or Gold — both include full AI Resume access
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const MyInterviewReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Premium gate
+  const [premiumChecking, setPremiumChecking] = useState(true);
+  const [isPremium, setIsPremium] = useState(false);
+
   useEffect(() => {
-    const fetchReports = async () => {
+    // Check premium first, then fetch reports
+    const init = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/interview`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`${BASE_URL}/premium/verify`, { withCredentials: true });
+        const premium = res.data.isPremium === true;
+        setIsPremium(premium);
+        if (!premium) { setPremiumChecking(false); return; }
+      } catch (err) {
+        console.error("Premium check failed:", err);
+        setIsPremium(false);
+        setPremiumChecking(false);
+        return;
+      }
+      setPremiumChecking(false);
+      // Fetch reports only for premium users
+      try {
+        const response = await axios.get(`${BASE_URL}/interview`, { withCredentials: true });
         setReports(response.data.interviewReports);
       } catch (err) {
         console.error(err);
@@ -231,8 +340,27 @@ const MyInterviewReports = () => {
         setLoading(false);
       }
     };
-    fetchReports();
+    init();
   }, []);
+
+  // Checking premium membership
+  if (premiumChecking) return (
+    <div style={{ minHeight:"100vh", background:"#030308", position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
+      <style>{styles}</style>
+      <AuroraBg />
+      <div style={{ position:"relative", zIndex:10, display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
+        <OrbLoader />
+        <p style={{ fontFamily:"'DM Mono', monospace", letterSpacing:"0.25em", fontSize:10, textTransform:"uppercase", color:"rgba(245,158,11,0.6)" }}>Verifying membership</p>
+        <div style={{ display:"flex", alignItems:"flex-end", gap:5, height:20 }}>
+          {[0,1,2,3,4,5].map(i => (
+            <div key={i} style={{ width:3, height:14, borderRadius:2, background:"linear-gradient(to top, #f59e0b, #7c3aed)", animation:`dotWave 1s ease-in-out ${i*0.12}s infinite` }}/>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (!isPremium) return <PremiumGate />;
 
   return (
     <div style={{ minHeight:"100vh", background:"#030308", position:"relative" }}>
